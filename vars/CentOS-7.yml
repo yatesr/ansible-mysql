@@ -1,0 +1,4 @@
+---
+mysql_server_pkg: mariadb-server
+mysql_service: mariadb
+mysql_my_cnf: /etc/my.cnf

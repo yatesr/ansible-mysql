@@ -1,0 +1,16 @@
+# {{ansible_managed}}
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+default-storage-engine = {{mysql_default_storage_engine}}
+collation-server     = {{mysql_collation_default}}
+character-set-server = {{mysql_encoding_default}}
+bind-address            = {{mysql_bind_address}}
+max_allowed_packet      = {{mysql_max_allowed_packet}}
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid

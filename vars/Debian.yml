@@ -1,0 +1,4 @@
+---
+mysql_server_pkg: mysql-server
+mysql_service: mysql
+mysql_my_cnf: /etc/mysql/my.cnf

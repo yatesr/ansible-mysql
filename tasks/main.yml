@@ -1,0 +1,79 @@
+---
+- name: Gather OS Specific Variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml"
+    - "../vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "../vars/{{ ansible_distribution }}.yml"
+    - "../vars/{{ ansible_os_family }}.yml"
+
+- name: Install mysql-server (Debian)
+  apt: name={{item}}
+       state=present
+       update_cache=yes
+       cache_valid_time=86400
+  with_items:
+   - "{{mysql_server_pkg}}"
+   - python-mysqldb
+  when: ansible_os_family == 'Debian'
+
+- name: Install mysql-server (RedHat)
+  yum: name={{item}}
+       state=present
+  with_items:
+   - "{{mysql_server_pkg}}"
+   - MySQL-python
+  when: ansible_os_family == 'RedHat'
+
+- name: Insert mysql config
+  template: src="{{item}}"
+            dest={{mysql_my_cnf}}
+            owner=root
+            group=root
+            mode=0744
+  with_first_found:
+   - "../templates/{{ansible_distribution}}-{{ansible_distribution_major_version}}.my.cnf.j2"
+   - "../templates/{{ansible_distribution}}.my.cnf.j2"
+   - "../templates/{{ansible_os_family}}-{{ansible_distribution_major_version}}.my.cnf.j2"
+   - "../templates/{{ansible_os_family}}.my.cnf.j2"
+   - "../templates/my.cnf.j2"
+  notify: restart mysql
+
+- meta: flush_handlers
+
+- name: Set root password, if specified
+  mysql_user: login_user=root
+              login_password={{mysql_root_password}}
+              login_port={{mysql_login_port}}
+              name=root
+              password={{mysql_root_password}}
+              check_implicit_admin=yes
+              state=present
+  when: mysql_root_password is defined
+
+- include: secure_installation.yml
+  when: mysql_secure_installation
+
+- name: Manage mysql users
+  mysql_user: login_user={{mysql_login_user}}
+              login_password={{mysql_login_password}}
+              login_port={{mysql_login_port}}
+              name="{{item.key}}"
+              password="{{item.value.password}}"
+              check_implicit_admin=yes
+              state={{item.value.state | default('present')}}
+              priv={{item.value.priv | default()}}
+              append_privs={{item.value.append_privs | default('no')}}
+  with_dict: mysql_users | default({})
+
+- name: Manage mysql databases
+  mysql_db: login_user={{mysql_login_user}}
+            login_password={{mysql_login_password}}
+            login_port={{mysql_login_port}}
+            collation={{item.value.collation | default(mysql_collation_default)}}
+            encoding={{item.value.encoding | default(mysql_encoding_default)}}
+            name="{{item.key}}"
+            state={{item.value.state | default('present')}}
+            target={{item.value.target | default()}}
+  with_dict: mysql_dbs | default({})
+
