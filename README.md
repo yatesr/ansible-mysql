@@ -26,10 +26,10 @@ mysql_collation_default: utf8_unicode_ci
 mysql_encoding_default: utf8
 
 # Name of pacakge to install, should be automatically filled based on distro.
-# Override if you know exactly what package you want. (e.g. mysql-server-5.6)
+# Override in your playbook if you know exactly what package you want. (e.g. mysql-server-5.6)
 mysql_server_pkg: mysql-server
 
-# Run the equivlant of mysql_secure_installation.
+# Run the equivilant of mysql_secure_installation.
 # Remove anonymous access, remove test db.
 mysql_secure_installation: true
 
