@@ -63,7 +63,7 @@
               password="{{item.value.password | default()}}"
               check_implicit_admin=yes
               state={{item.value.state | default('present')}}
-              priv=priv="{{item.value.priv | default('*.*:USAGE')}}"
+              priv="{{item.value.priv | default('*.*:USAGE')}}"
               append_privs={{item.value.append_privs | default('no')}}
   with_dict: mysql_users | default({})
 
