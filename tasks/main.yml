@@ -60,10 +60,10 @@
               login_password={{mysql_login_password}}
               login_port={{mysql_login_port}}
               name="{{item.key}}"
-              password="{{item.value.password}}"
+              password="{{item.value.password | default()}}"
               check_implicit_admin=yes
               state={{item.value.state | default('present')}}
-              priv={{item.value.priv | default()}}
+              priv=priv="{{item.value.priv | default('*.*:USAGE')}}"
               append_privs={{item.value.append_privs | default('no')}}
   with_dict: mysql_users | default({})
 
