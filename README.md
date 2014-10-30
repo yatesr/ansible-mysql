@@ -52,7 +52,7 @@ Example Playbook
   roles:
    - mysql
   vars:
-    mysql_root_password: password
+    mysql_root_password: password1
     mysql_users:
       test1:
         password: test1
