@@ -12,7 +12,7 @@ mysql_login_port: 3306
 # MySQL my.cnf location, should be detected automatically based on distro.
 mysql_my_cnf: /etc/mysql/my.cnf
 # Default collation for mysql dbs, also will set in my.cnf
-mysql_collation_default: utf8_unicode_ci
+mysql_collation_default: utf8_bin
 # Default encdoing for mysql dbs
 mysql_encoding_default: utf8
 
