@@ -77,4 +77,3 @@
             state={{item.value.state | default('present')}}
             target={{item.value.target | default()}}
   with_dict: mysql_dbs | default({})
-
