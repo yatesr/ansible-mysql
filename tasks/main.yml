@@ -65,7 +65,7 @@
               state={{item.value.state | default('present')}}
               priv="{{item.value.priv | default('*.*:USAGE')}}"
               append_privs={{item.value.append_privs | default('no')}}
-  with_dict: mysql_users | default({})
+  with_dict: "{{ mysql_users | default({}) }}"
 
 - name: Manage mysql databases
   mysql_db: login_user={{mysql_login_user}}
@@ -76,5 +76,4 @@
             name="{{item.key}}"
             state={{item.value.state | default('present')}}
             target={{item.value.target | default()}}
-  with_dict: mysql_dbs | default({})
-
+  with_dict: "{{ mysql_dbs | default({}) }}"
