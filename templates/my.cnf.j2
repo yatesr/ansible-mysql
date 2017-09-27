@@ -43,7 +43,7 @@ lc-messages-dir	= /usr/share/mysql
 skip-external-locking
 default-storage-engine = {{mysql_default_storage_engine}}
 #
-# * Lang Settings 
+# * Lang Settings
 #
 collation-server     = {{mysql_collation_default}}
 character-set-server = {{mysql_encoding_default}}
@@ -54,13 +54,13 @@ bind-address		= {{mysql_bind_address}}
 #
 # * Fine Tuning
 #
-key_buffer		= 16M
+key_buffer_size		  = 16M
 max_allowed_packet	= {{mysql_max_allowed_packet}}
 thread_stack		= 192K
 thread_cache_size       = 8
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
-myisam-recover         = BACKUP
+myisam-recover-options  = BACKUP
 #max_connections        = 100
 #table_cache            = 64
 #thread_concurrency     = 10
@@ -124,7 +124,7 @@ max_allowed_packet	= 16M
 #no-auto-rehash	# faster start of mysql but no tab completition
 
 [isamchk]
-key_buffer		= 16M
+key_buffer_size	= 16M
 
 #
 # * IMPORTANT: Additional settings that can override those from this file!

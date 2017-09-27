@@ -75,5 +75,6 @@
             encoding={{item.value.encoding | default(mysql_encoding_default)}}
             name="{{item.key}}"
             state={{item.value.state | default('present')}}
-            target={{item.value.target | default()}}
+            target={{item.value.tar
   with_dict: "{{ mysql_dbs | default({}) }}"
+
